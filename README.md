@@ -1,18 +1,65 @@
-Fitz-Compresssion: A tool to readily to compress and decompress files using Huffman encoding. 
-Working: For encoding a file, it creates a prefix-free tree wherein each leaf represents a particular symbol occuring in the original file, arranged in order of their freqeuncies. The encoded file, then accords 
-7 bytes to meta data. The first 4 bytes act as an identifier for the decoder, the next 2 bytes entail the size of the sequence in bytes that contain the Huffman tree required to decode it, and the next byte entails the number of padding bits in the entire file. These 7 bytes are then followed by N bytes of the Huffman tree in a particular format.
-The decoder discerns the information from the first (7+N) bytes and begins reading bitwise from there onwards. Using the reconstructed Huffman tree and he property of it being prefix-free, the decoder is able to decode the entire file in one pass.
-Pre-Requisites:
-i)Rust
-ii)Cargo(included with Rust)
-Installation:
+# Fitz-Compression
+
+A tool to readily compress and decompress files using Huffman encoding.
+
+---
+
+## How It Works
+
+For encoding a file, it creates a prefix-free tree wherein each leaf represents a particular symbol occurring in the original file, arranged in order of their frequencies.
+
+The encoded file then accords **7 bytes to metadata**:
+
+| Bytes | Description |
+|-------|-------------|
+| Bytes 1–4 | Identifier for the decoder |
+| Bytes 5–6 | Size (in bytes) of the sequence containing the Huffman tree |
+| Byte 7 | Number of padding bits in the entire file |
+
+These 7 bytes are followed by **N bytes** of the Huffman tree in a particular format.
+
+The decoder discerns the information from the first **(7+N) bytes** and begins reading bitwise from there onwards. Using the reconstructed Huffman tree and the property of it being prefix-free, the decoder is able to decode the entire file in one pass.
+
+---
+
+## Prerequisites
+
+- Rust
+- Cargo *(included with Rust)*
+
+---
+
+## Installation
+
+```bash
 git clone https://github.com/Rishi-Mahana/fitz-compression.git
 cd fitz-compression
-Usage:
-cargo run <input file path> <output file path> <mode>
-<input file path> -> File path of the file you want to read
-<output file path> -> File path of the file you want to write to
-<mode> -> "encode" or "decode"
-Examples:
+```
+
+---
+
+## Usage
+
+```bash
+cargo run <input_file> <output_file> <encode|decode>
+```
+
+| Argument | Description |
+|----------|-------------|
+| `<input_file>` | File path of the file you want to read |
+| `<output_file>` | File path of the file you want to write to |
+| `<encode\|decode>` | Mode of operation |
+
+---
+
+## Examples
+
+**Encode:**
+```bash
 cargo run doc.txt dec.fitz encode
+```
+
+**Decode:**
+```bash
 cargo run dec.fitz doc.txt decode
+```
